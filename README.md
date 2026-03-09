@@ -25,10 +25,6 @@ Sistema completo de monitoramento de infraestrutura com dashboards em tempo real
 - [Dashboard Grafana](#-dashboard-grafana)
 - [Configuração](#️-configuração)
 - [Métricas Coletadas](#-métricas-coletadas)
-- [Troubleshooting](#-troubleshooting)
-- [Contribuindo](#-contribuindo)
-- [Licença](#-licença)
-- [Contato](#-contato)
 
 ## 📋 Funcionalidades
 
