@@ -1,0 +1,17 @@
+name: Markdown Linter
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Lint Markdown files
+      uses: actionshub/markdownlint@main
+      continue-on-error: true

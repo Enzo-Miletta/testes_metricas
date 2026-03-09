@@ -1,0 +1,97 @@
+# Regras de alertas do Prometheus
+groups:
+  - name: system_alerts
+    interval: 30s
+    rules:
+      # Alerta de CPU alta
+      - alert: HighCPUUsage
+        expr: system_cpu_usage_percent > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Uso de CPU alto"
+          description: "CPU está em {{ $value }}% por mais de 5 minutos"
+
+      # Alerta de CPU crítica
+      - alert: CriticalCPUUsage
+        expr: system_cpu_usage_percent > 95
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Uso de CPU crítico"
+          description: "CPU está em {{ $value }}% por mais de 2 minutos"
+
+      # Alerta de memória alta
+      - alert: HighMemoryUsage
+        expr: system_memory_usage_percent > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Uso de memória alto"
+          description: "Memória está em {{ $value }}% por mais de 5 minutos"
+
+      # Alerta de memória crítica
+      - alert: CriticalMemoryUsage
+        expr: system_memory_usage_percent > 95
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Uso de memória crítico"
+          description: "Memória está em {{ $value }}% por mais de 2 minutos"
+
+      # Alerta de disco cheio
+      - alert: DiskSpaceRunningOut
+        expr: system_disk_usage_percent > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Espaço em disco baixo"
+          description: "Disco {{ $labels.mountpoint }} está em {{ $value }}%"
+
+      # Alerta de disco crítico
+      - alert: DiskSpaceCritical
+        expr: system_disk_usage_percent > 95
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Espaço em disco crítico"
+          description: "Disco {{ $labels.mountpoint }} está em {{ $value }}%"
+
+  - name: api_alerts
+    interval: 30s
+    rules:
+      # Alerta de API fora do ar
+      - alert: APIDown
+        expr: api_up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "API fora do ar"
+          description: "API {{ $labels.url }} está fora do ar por mais de 2 minutos"
+
+      # Alerta de tempo de resposta alto
+      - alert: HighAPIResponseTime
+        expr: api_response_time_seconds > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Tempo de resposta da API alto"
+          description: "API {{ $labels.url }} está respondendo em {{ $value }}s"
+
+      # Alerta de muitos erros
+      - alert: HighAPIErrorRate
+        expr: rate(api_requests_total{status=~"client_error|server_error"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Taxa de erro da API alta"
+          description: "API {{ $labels.url }} está com alta taxa de erros"
